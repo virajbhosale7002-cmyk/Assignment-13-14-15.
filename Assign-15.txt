@@ -1,0 +1,36 @@
+
+import gc
+
+class Demo:
+    def __init__(self, name):
+        self.name = name
+
+# Check garbage collector status
+print("Garbage collection enabled:", gc.isenabled())
+
+# Create objects with circular references
+a = Demo("Object A")
+b = Demo("Object B")
+
+a.ref = b
+b.ref = a
+
+# Remove external references
+del a
+del b
+
+# Check garbage collection counts
+print("GC counts before collection:", gc.get_count())
+
+# Perform manual garbage collection
+collected = gc.collect()
+
+print("Objects collected:", collected)
+print("GC counts after collection:", gc.get_count())
+
+# Disable and enable automatic garbage collection
+gc.disable()
+print("GC enabled after disabling:", gc.isenabled())
+
+gc.enable()
+print("GC enabled after enabling:", gc.isenabled())
